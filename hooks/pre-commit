@@ -1,0 +1,34 @@
+#! /bin/bash
+
+EXIT=0
+
+LIST=$(git diff --staged --name-only)
+PHP_FILES=("php" "module")
+
+IFSBACK=$IFS
+IFS=$'\n'
+for file in $LIST
+do
+    EXTENSION=$(echo "$file" | egrep "\.install$|\.test$|\.inc$|\.module$|\.php$")
+    if [ "$EXTENSION" != "" ]; then
+        drush dcs $file
+        if [ "$?"=1 ]; then
+            EXIT=1
+        fi
+    fi
+done
+
+echo --------------------------------------------------------------------------------
+echo
+
+if [ $EXIT = 0 ]; then
+    echo "Congratulations! You have passed all the filters, your code has now been committed."
+else
+    echo "Your commits failed to pass the PHP code sniffer validation."
+    echo "Kindly fix the code sniffer notices."
+    echo
+fi
+
+echo --------------------------------------------------------------------------------
+
+exit $EXIT
