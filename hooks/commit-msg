@@ -1,0 +1,9 @@
+#! /usr/bin/env php
+<?php
+
+$message = file_get_contents($argv[count($argv) - 1]);
+if (!preg_match('/\\[(FEATURE|MODULE|SUPPORT|THEME)]\\ #[A-Z]+-[0-9]+ - .+/', $message)) {
+  echo 'Message must be of format: [subproject] Message';
+  exit(1);
+}
+?>
