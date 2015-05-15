@@ -3,7 +3,7 @@
 
 $message = file_get_contents($argv[count($argv) - 1]);
 if (!preg_match('/\\[(FEATURE|MODULE|SUPPORT|THEME)]\\ #[A-Z]+-[0-9]+ - .+/', $message)) {
-  echo 'Message must be of format: [subproject] Message';
+  echo 'Message must be of format: [FEATURE] #RT-32  - A commit message';
   exit(1);
 }
 ?>
